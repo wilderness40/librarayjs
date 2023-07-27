@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<style>
+  input[type='checkbox'] {
+    display: none;
+  }
+
+ span.check {
+  display: none;
+ }
+
+ input:checked ~label>span.check {
+  display: inline-block;
+ }
+
+ input:checked ~label>span:not(.check) {
+  display: none;
+ }
+
+</style>
+</head>
+<body>
+  <input type="checkbox" id="checksign" name="checksign">
+  <label for="checksign">
+  <span class="material-symbols-outlined check" >
+    check_box
+    </span>
+  <span class="material-symbols-outlined">
+    check_box_outline_blank
+    </span>
+  </label>
+  <label for="checksign">checksign</label>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 페이지</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- action : 사용자가 입력한 데이터를 전송받아서 처리하는 서버 파일의 경로 -->
+  <!-- method : 사용자가 입력한 데이터를 전송하는 방식 -->
+  <h1>회원가입 페이지</h1>
+  <form action="/" method="post">
+  <!-- input 태그의 required 속성은 반드시 input 태그가 form 태그 안에 있을때만 제대로 동작한다 -->
+<fieldset>
+<legend>필수사항</legend>
+<table>
+  <tr>
+    <td><label for="userid">User ID: </label></td>
+    <td><input type="text" id='userid' placeholder="아이디를 입력하세요" required></td>
+  </tr>
+  <tr>
+    <td><label for="useremail">User Email: </label></td>
+    <td><input type="email" id="useremail" placeholder="이메일 주소를 입력하세요" required></td>
+  </tr>
+  <tr>
+    <td>  <label for="userpw">User PW: </label></td>
+    <td>  <input type="password" id='userpw' placeholder="비밀번호를 입력하세요" required> </td>
+  </tr>
+  <tr>
+    <td><input type="submit" value='가입하기'></td>
+  </tr>
+</table>
+</fieldset>
+<fieldset>
+  <legend>옵션사항</legend>
+  <p>
+    <label for="address">Address: </label>
+    <select name="address" id="address">
+      <option value="seoul">서울특별시</option>
+      <option value="busan">부산광역시</option>
+      <option value="daejeon">대전광역시</option>
+    </select>
+  </p>
+  <p>
+    <span>Gender: </span>
+    <label for="male">남성</label>
+    <input type="radio" id="male" name="gender" value="남성">
+
+    <label for="female">여성</label>
+    <input type="radio" id="female" name="gender" value="여성">
+  </p>
+  <p>
+    <span>Interest: </span>
+    <label for="html">HTML</label>
+    <input type="checkbox" id="html" name="html" value="HTML">
+  
+    <label for="css">CSS</label>
+    <input type="checkbox" id="css" name="css" value="CSS">
+  
+    <label for="javascript">JAVASCRIPT</label>
+    <input type="checkbox" id="javascript" name="javascript" value="JAVASCRIPT">
+  </p>
+
+  <p>
+    <label for="message">Greetings</label>
+    <textarea name="message" id="message" cols="30" rows="10"></textarea>
+  </p>
+  <p>
+    <label for="profile">Profile photo</label>
+    <input type="file" id="profile" name='profile' accept="image/png,image/jpeg">
+  </p>
+
+  <p>
+    <label for="website">Website: </label>
+    <input type="url" id="website" name="website" >
+  </p>
+  <p>
+    <label for="birth">Birth: </label>
+    <input type="date" id="birth" name="birth">
+  </p>
+  <p>
+    <label for="fruit">Favorite fruit</label>
+    <input type="text" id="fruit" name="fruit" list="fruit-list">
+    <datalist id="fruit-list">
+      <option value="apple"></option>
+      <option value="banana"></option>
+      <option value="orange"></option>
+      <option value="mango"></option>
+      <option value="watermelon"></option>
+    </datalist>
+  </p>
+</fieldset>
+</form>
+</body>
+</html>

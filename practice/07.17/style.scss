@@ -1,0 +1,225 @@
+//문제 1
+
+// @mixin btnSize(
+//   $height: 50px,
+//   $padding-left: 10px,
+//   $padding-right: 10px,
+//   $font-size: 1rem
+// ) {
+//       height: $height;
+//       padding-left: $padding-left;
+//       padding-right:  $padding-right;
+//       font-size: $font-size;
+// }
+
+// .Button{
+//   all: unset;
+//   font-weight: bold;
+//   color: white;
+//   cursor: pointer;
+//   border-radius: 5px;
+//   margin-left: 10px;
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   &:hover{
+//     opacity: .7;
+//   }
+
+// // 버튼 크기
+
+//   &.large{
+//     @include btnSize(
+//       $height: 70px,
+//       $padding-left: 15px,
+//       $padding-right: 15px,
+//       $font-size: 1.2rem
+//     )
+//   }
+
+//   &.medium{
+//     @include btnSize;
+//   }
+
+//   &.small{
+//     @include btnSize(
+//       $height: 30px,
+//       $padding-left: 5px,
+//       $padding-right: 5px,
+//       $font-size: 0.8rem
+//     )
+//   }
+//   &.fullWidth{
+//     width: 100%;
+//     margin-left: 0px;
+//     margin-top: 10px;
+//     margin-bottom: 10px;
+//   }
+
+// // 버튼 색상
+
+// &.blue{
+//   background:blue;
+ 
+//   &:hover{
+//     background: lightsalmon
+//   }
+// }
+
+// &.grey{
+//   background: grey;
+
+//   &:hover{
+//     background: lightgray;
+//   }
+// }
+// }
+
+// // 문제 2
+
+// .Modal{
+//   width: 500px;
+//   margin: 100px auto;
+//   border: 1px solid tan;
+//   padding: 10px;
+//   text-align: center;
+  
+//   &.open {
+//     display: block;
+//   }
+
+//   &.close{
+//     display: none;
+// }
+// }
+
+// .header, .body, .footer{
+//   padding: 5px;
+// }
+
+// .header{
+//   font:{
+//   size: 1.2rem;
+//   weight: bold;
+// }
+// }
+
+// .body{
+//   font-size: 0.9rem;
+//   margin: 20px;
+
+//   & input{
+//     width: 60%;
+//     height: 30px;
+//     border: 1px solid lightgray;
+//     border-radius: 5px;
+//     margin-bottom: 10px;
+//   }
+// }
+
+// .footer{
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
+
+
+// // 문제 3번
+
+@mixin alignCenter(
+  $display: flex,
+  $justify-content: center,
+  $align-items: center
+) {
+  display: $display;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin area(
+  $width: 100%,
+  $height: 100%
+){
+  width: $width;
+  height: $height;
+}
+
+@mixin fontGather($font-weight, $font-size) {
+  font : {
+    weight: $font-weight;
+    size: $font-size;
+  }
+} 
+
+@mixin headerFixed ($position :fixed, $left:0, $top:0, $right:0, $z-index: 1;
+) {
+  position: $position;
+  left: $left;
+  top: $top;
+  right: $right;
+  z-index: $z-index;
+}
+
+.header{
+  box-shadow: 1px 1px 5px 5px darkgray;
+  background: white;
+  @include headerFixed;
+  @include area($height: 70px);
+  @include alignCenter($justify-content: flex-end);
+}
+
+.sort-btns{
+  all: unset;
+  background: peru;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  margin-right: 10px;
+  @include fontGather(bold, 1rem);
+  @include area(100px, 50px);
+  
+  &:hover{
+    opacity: 0.8;
+  }
+}
+
+.root{
+  margin: 100px auto;
+  flex-wrap: wrap;
+  @include area(60%);
+  @include alignCenter;
+}
+
+.product{
+  flex: 200px;
+  box-shadow: 1px 1px 5px 5px peru;
+  color: white;
+  background: peru;
+  margin: 10px;
+  overflow: hidden;
+  @include area($height: 500px);
+
+  &-img{
+    overflow: hidden;
+    @include area($height: 180px);
+    
+    & img{
+      @include area;
+    }
+  }
+
+  &-name{
+    text-align: center;
+    @include fontGather(bold, 1.1rem)
+  }
+  
+  &-description{
+    text-align: center;
+    margin-top: 15px;
+    @include fontGather(400, 0.9rem)
+  }
+}
+
+

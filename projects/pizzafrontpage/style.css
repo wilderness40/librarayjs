@@ -1,0 +1,337 @@
+* {
+  padding: 0;
+  margin: 0;
+  /* overflow: hidden; */
+  box-sizing: border-box;    
+  /* 아까 이거를 설정안해서 브라우저 창 크기가 삐져나왔다(스크롤이 생기고 우상단 x창이 안보였음)
+  아마 웹디자인 기능사 시험볼때 슬라이드 이미지 우측 잘렸던 것도 동일한 문제였던 것 같다 */
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+
+#wrap {
+  box-sizing: border-box;
+}
+
+/* header  */
+header {
+  width: 100%;
+  height: 70px;
+  background-color: rgba(236, 235, 235, 0.986);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.8rem;
+  z-index: 2;
+  position: relative;
+}
+
+/* main */
+
+main {
+  overflow: auto;
+  height: calc(100vh - 170px);
+  background-image: url(https://assets.nicepagecdn.com/d2cc3eaa/3955079/images/34.jpg) ;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* before 태그를 main에서 body로 변경하니 해결되었다 */
+body::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.397);
+  position: absolute;
+  z-index: 1;
+}
+
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  /* center에서 flex-start로 변경하니 브라우저 사이즈를 줄였을때 좌우 간격과 가운데 정렬이 유지된다 */
+  /* width와 height를 %로 했을때는 flex-start시 가운데 정렬이 해제됨 */
+  align-items: center;
+  width: 100vw;
+  height: calc(100vh - 170px);
+  position: relative;
+  z-index: 999;
+}
+
+.container .text {
+  width: 100%;
+  max-width: 70%;
+  /* padding-top: 10rem; */
+}
+
+.container .text h1 {
+  font-size: 3.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+
+  animation-name: slideright;
+}
+
+.container .text p {
+  font-size: 1.3rem;
+  color: #fff;
+  max-width: 35em;
+  height: 100%;
+  margin: auto;
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+
+  animation-name: fade-to-left;
+  animation-timing-function: ease-in-out;
+}
+
+/* btn */
+
+.btn {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 70%;  
+  justify-content: center;
+}
+
+.btn button {
+  width: 13rem;
+  padding: 1rem 0rem;
+  border-radius: 2rem;
+  margin: 2.5rem 0.8rem;
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background-color: #e73d0c;
+  color: #fff;
+}
+
+.order-btn:hover {
+  background-color: #e73d0c;
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid #e73d0c; /* 테두리까지 색을 변경하지 않으면 호버시 마진이 움직임, 2px값이 있어서 그러함 */
+}
+
+.view-btn {
+  font-weight: 600;
+  border: none;
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+
+  animation-name: viewbtnslide;
+  animation-timing-function: ease-in-out;
+}
+
+.order-btn {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+  font-weight: 600;
+  border: 2px solid #fff;
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+
+  animation-name: orderbtnslide;
+  animation-timing-function: ease-in-out;
+}
+
+/* span */
+
+main span {
+  color: #fff;
+  font-size: 1.3rem;
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+
+  animation-name: slideup;
+  animation-timing-function: ease-in-out;
+  opacity: 0.8;
+}
+
+main span a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  display: inline-block;
+  border-bottom: 2px solid white;
+}
+
+main span a:hover {
+opacity: 0.7;
+}
+
+/* icons */
+
+.icons {
+    padding: 0;
+    margin: 3rem 0; /*ul에 줬던것을 상위 박스로 변경 */
+}
+
+.icons ul{
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* height:5rem; 이걸 없애면 위 컨텐츠가 모두 밀림, 아이콘 크기를 설정해야 사이즈가 한정될같다는 생각으로 지정함 */
+  height: 5rem; 
+
+  animation-duration: 1.5s;
+  animation-delay: .3s;
+  animation-name: slide;
+  animation-timing-function: ease-in-out;
+}
+
+
+.icons ul li img{
+  width: 4rem;
+  height: 4rem;
+}
+/* 이미지랑 h6를 네모박스 안에 묶어야한다 li태그에 줬던 색상과 크기를 a 태그로 변경함*/
+.icons ul li a {
+  text-decoration: none;
+  display: block;
+  background-color: #e73d0c;
+  width: 17rem; /* 리스트 크기 다른것 이것으로 해결 */
+  margin: 0.8rem;
+  padding: 4rem 0rem; 
+}
+
+.icons ul li h6 {
+  color: #fff;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  font-weight: 600;
+  padding-top: 20px;
+}
+
+/* footer */
+
+footer {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(63, 63, 63);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer p {
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+footer p a {
+  color: rgb(194, 194, 245);
+}
+ 
+/* h1 애니메이션 */
+@keyframes slideright {
+  from {
+      transform: translateX(-400px);
+      opacity: 0;
+}
+
+  to {
+  transform: translateX(0);
+  opacity: 1;
+}
+} 
+
+/* p태그 애니메이션 */
+@keyframes fade-to-left{
+  from{
+    transform: translatex(50px) scale(0.8);
+    opacity: 0;
+
+  }
+  to{
+    transform: translatex(0) scale(1);
+    opacity: 1;
+
+  }
+}
+
+/* 버튼 애니메이션 */
+@keyframes viewbtnslide{
+  from{
+    transform: translateX(-300px);
+    opacity: 0;
+
+  }
+  to{
+    transform: translateX(0);
+    opacity: 1;
+
+  }
+}
+
+@keyframes orderbtnslide{
+  from{
+    transform: translateX(300px);
+    opacity: 0;
+
+  }
+  to{
+    transform: translateX(0);
+    opacity: 1;
+
+  }
+}
+
+@keyframes slideup {
+  from{
+    transform: translateY(50px);
+    opacity: 0;
+
+  }
+  to{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide {
+  from{
+    transform: translateY(300px);
+    /* opacity: 0; */
+
+  }
+  to{
+    transform: translateY(0);
+    /* opacity: 1; */
+  }
+}
+
+
+/*
+문제점
+1. 브라우저 가로사이즈를 줄이면 컨텐츠 요소들이 브라우저밖(배경이미지와 푸터)으로 이탈함
+-> footer : absolute를 삭제하고 container height를 100%에서 100vh로 변경했더니 footer 밑으로 브라우저 흰창이 나타나지는 않음
+여전히 배경이미지와 footer 사이에 흰색 여백이 남아있음
+
+2. order online button 밑부분이 투명하게 표시됨 + 해당버튼 hover시 크기가 변하면서 밑의 요소들이 올라옴
+3. p본문 (헤드라인 밑 3줄짜리) 애니메이션 효과를 넣었는데 글자가 중앙이 아닌 좌측으로 이탈했다가 중앙으로 들어옴
+4. 버튼과 밑에 span과 아이콘 이미지 애니메이션이 뚝뚝끊김
+5. 브라우저 사이즈를 줄였을때 li박스 크기들이 차이가 발생함
+*/

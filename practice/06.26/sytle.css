@@ -1,0 +1,29 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+}
+
+.actions {
+  display: flex;
+  width: 500px;
+  height: 30px;
+  border: 3px solid #333;
+  margin-top: auto;
+  margin-bottom: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.actions button {
+  flex: auto; /*flex-grow:1; */
+  transition: .3s;
+}
+
+  .actions button:hover {
+    flex: 3;
+}

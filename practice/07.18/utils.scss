@@ -1,0 +1,48 @@
+:root{
+  --primary-color: #e73d0c;
+  --text-color: #fff;
+  --text-offset: 500px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$defalut-width : 100%;
+$defalut-height : 100%;
+$defalut-font-weight : 700;
+$defalut-rem : 1rem;
+$center : center;
+
+@mixin positionCenter() {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin bgImgDefault($background-size, $background-position, $overflow) {
+  background-size: $background-size;
+  background-position: $background-position;
+  overflow: $overflow;
+}
+
+@mixin buttonSet($bc, $tc, $px, $style, $text){
+  background: var($bc);
+  color: $tc;
+  border: $px $style var($text);
+}
+
+@mixin transformSet ($scale, $xMove, $yMove:0) {
+  transform: scale($scale);
+  transform: translate($xMove, $yMove);  
+ }
+
+.position-center{
+  @include positionCenter();
+  }
+  
+.text-center{
+    text-align: $center;
+ }
