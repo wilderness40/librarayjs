@@ -1,17 +1,15 @@
 // 전역변수
 const container2 = document.querySelector('.container-noneauto')
-const container1 = document.querySelector('.container-auto')
-const cardList1 = container1.querySelectorAll('.card')
-const cardList2 = container2.querySelectorAll('.card')
 const tultipBtn = document.querySelector('.tultip-btn')
 const tultip = document.querySelector('.tultip')
-const secondCards = document.querySelectorAll('.container-noneauto>.card')
 const detailView = document.querySelector('.detail-view')
 const detailViewModal = document.querySelector('.detailview-modal')
 const header = document.querySelector('.wrapper header')
 
 let cardArr = []
 const allcardSection = document.querySelector('.allcards')
+let newArr = []
+let cards = []
 
 let isDown = false // 플래그 : 현재 마우스 클릭여부 판단
 let startX // 마우스 클릭시 마우스의 x좌표
@@ -42,22 +40,15 @@ container2.scrollLeft = scrollLeft - walk // 최근 스크롤바 위치에서 �
 })
 
 // fetch 데이터 가져오기
-const url = 'https://webcamstravel.p.rapidapi.com/webcams/list/nearby=%7Blat%7D,%7Blng%7D,%7Bradius%7D?lang=en&show=webcams%3Aimage%2Clocation'
-const options = {
-method: 'GET',
-headers: {
-'X-RapidAPI-Key': '642d501214msh97213792c7eb4e4p166eb1jsnec777296332b',
-'X-RapidAPI-Host': 'webcamstravel.p.rapidapi.com'
-}
-};
 
 async function showLocalImg() {
 let results = await Promise.all ( // promise.all
 [
-fetch('https://api.unsplash.com/photos?per_page=30&client_id=NNmNL2OOluBZlE9VpvVPQKXW7p0vm0dCkz2n8dFIAUA&;')
+fetch('https://api.unsplash.com/photos?page=1&per_page=35&client_id=NNmNL2OOluBZlE9VpvVPQKXW7p0vm0dCkz2n8dFIAUA&;')
 .then(response => response.json()),
-
-fetch(url, options)
+fetch('https://api.unsplash.com/photos?page=2&per_page=35&client_id=NNmNL2OOluBZlE9VpvVPQKXW7p0vm0dCkz2n8dFIAUA&;')
+.then(response => response.json()),
+fetch('https://api.unsplash.com/photos?page=3&per_page=35&client_id=NNmNL2OOluBZlE9VpvVPQKXW7p0vm0dCkz2n8dFIAUA&;')
 .then(response => response.json())
 ])
 
@@ -74,94 +65,90 @@ document.body.append(div)
 
 div.remove() // 메세지 삭제
 
-const unsplash = results[0]
-const webcam = results[1]
+const unsplash = results
 
-console.log(unsplash, webcam)
+newArr.push(...results[0])
+newArr.push(...results[1])
+newArr.push(...results[2])
 
+// unsplash 이미지 가로스크롤 
+for (let i=0; i < newArr.length; i++) {
 
-// unsplash 랜덤이미지
-for (let i=0; i < cardList2.length; i++) {
-let img2 = document.createElement('img')
-img2.src = unsplash[i].urls.regular
-img2.className = 'imgbox'
-img2.alt = unsplash[i].alt_description
-cardList2[i].append(img2)
+let cardList = document.createElement('div')
+cardList.className = 'card'
+
+let radomImg = document.createElement('img')
+radomImg.src = newArr[i].urls.regular
+radomImg.className = 'imgbox'
+radomImg.alt = newArr[i].alt_description
+
+container2.appendChild(cardList)
+cardList.append(radomImg)
+cards.push(cardList)
 }
+// 디테일뷰 파트
+// 이벤트 위임 
 
-// webcam 랜덤이미지
-for (let i=0; i < cardList1.length; i++) {
-let img1 = document.createElement('img')
-img1.src = webcam.result.webcams[i].image.current.preview
-img1.className = 'imgbox'
-
-
-cardList1[i].append(img1)
+for(let card of cards){
+function showlargeImg(e){ // 카드이미지2 클릭시 확대
+  inside = false
+  detailView.innerHTML = `<img src=${e.target.src} alt='${e.target.alt}' class='large-view'>`
+  }
+card.addEventListener('click', showlargeImg)
 }
-
-
 
 // 전체 카드리스트 가져오기
-for (let i = 0; i < unsplash.length; i++) {
+function createCard(card){
+  let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
+  let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
+  let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
+  let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
 
-let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
-let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
-let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
-let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
+  allCard.className = 'cardFrame'  
+  cardImgFrame.className ='cardImgFrame'
+  cardImg.className = 'cardImg'
+  cardText.className = 'cardtext' 
+  cardText.innerHTML = `<h3>${card.alt_description}</h3> \n <p>by ${card.user.username}</p>`
 
-allCard.className = 'cardFrame'  
-cardImgFrame.className ='cardImgFrame'
-cardImg.className = 'cardImg'
-cardText.className = 'cardtext' 
-cardText.innerHTML = `<h3>${unsplash[i].alt_description}</h3> \n <p>by ${unsplash[i].user.username}</p>`
+  cardImg.src = card.urls.regular // 카드 이미지
 
-cardImg.src = unsplash[i].urls.regular // 카드 이미지
-
-allcardSection.appendChild(allCard)
-allCard.append(cardImgFrame,cardText)
-cardImgFrame.appendChild(cardImg)
-cardArr.push(allCard)
+  allcardSection.appendChild(allCard)
+  allCard.append(cardImgFrame,cardText)
+  cardImgFrame.appendChild(cardImg)
+  cardArr.push(allCard)
+}
+window.createCard = createCard
+  
+for (let i = 0; i < newArr.length; i++) {
+  createCard(newArr[i])
 }
 }
 showLocalImg()
 
-
 window.addEventListener('scroll', () => {
   for (let i = 0; i<cardArr.length; i++) {
-  if(allcardSection.getBoundingClientRect().top < header.offsetHeight + 200){
-    console.log(allcardSection.getBoundingClientRect().top, header.offsetHeight)
-    
-      console.log(cardArr[i])
-      cardArr[2*i+1].classList.add('reveal','up')
-      cardArr[2*i].classList.add('reveal','down')
+  if(allcardSection.getBoundingClientRect().top < header.offsetHeight + 500){   
+      cardArr[i].classList.add('reveal','down')
   
   }  else {
-    cardArr[i].classList.remove('reveal','up','down')
+    cardArr[i].classList.remove('reveal','down')
   }
 }
 
 // 튤팁기능
-
 function showhideTultip(){
 tultip.classList.toggle('on')
 }
-
 tultipBtn.addEventListener('click', showhideTultip)
 
-// 카드이미지2 클릭시 확대
-
-// let targetImg = null
 let inside = null
 
-function showlargeImg(e){
-inside = false
-detailView.innerHTML = `<img src=${e.target.src} alt='${e.target.alt}' class='large-view'>`
-}
 
-window.addEventListener('scroll', (event) => {
+  // 스크롤시 모달창 나오는 기능
 const detailViewImg = detailView.querySelector('img')
 if(detailViewImg && detailViewImg.getBoundingClientRect().top < header.offsetHeight + 10) {
 detailViewModal.innerHTML = `<p>현재 ${detailViewImg.alt}를 보고 있습니다.</p> \n <button>닫기</button>`
+
 if(!detailViewModal.classList.contains('show') && !inside){
 detailViewModal.classList.add('show')
 inside = true
@@ -172,15 +159,43 @@ modalCloseBtn.addEventListener('click', (event) => {
 if(detailViewModal.classList.contains('show')) detailViewModal.classList.remove('show')
 })
 }
+
+// 무한스크롤 
+const scrollHeight = Math.max(   // 전체문서 높이 (스크롤이벤트 내부에 있어야 함)
+    document.body.scrollHeight, document.documentElement.scrollHeight,
+    document.body.offsetHeight, document.documentElement.offsetHeight,
+    document.body.clientHeight, document.documentElement.clientHeight
+    );
+    // 스크롤을 브라우저창 아래까지 다 내린경우
+let imgList = []
+
+  if(Math.abs(window.pageYOffset+document.documentElement.clientHeight-scrollHeight) < 100){
+    imgList = getImgList(2)
+    console.log('scroll is bottom of browser!')
+   imgList.forEach(factory => {
+    // console.log(createCard)
+    window.createCard(factory)
+    }) 
+  }
+
+})
+
+// 무한스크롤시 이미지 배열 합치기
+function getImgList(num){
+  for (let i = 0; i < num; i++){
+    imgList = newArr.concat(newArr)
+    // imgList.push(...newArr)
+  }
+  return imgList
 }
-)
 
 
-// 이벤트 위임
-for(let card of secondCards){
-card.addEventListener('click', showlargeImg)
-}
-
+// 스크롤투탑
+const scrollTopBtn = document.querySelector('.scrollBtn')
+scrollTopBtn.addEventListener('click', () => window.scrollTo({
+top: 0 ,
+behavior: 'smooth'
+}))
 
 // 다크모드
 
@@ -206,10 +221,15 @@ getBoundingClientRect().top 브라우저상단부터 엘리먼트까지의 거�
 */
 
 
-  // 무한스크롤
-    function getCardimgList(num){
-      let cardImgList =''
+// 검색창 기능
+const input = document.querySelector('.search input')
+// const inputEnter = document.querySelector('label span')
 
-    }
-})
+function searchPhotos(e) {
+  
+  console.log(e.target.value.trim())
+  e.target.value =''
+}
+input.addEventListener('change', searchPhotos)
 
+  

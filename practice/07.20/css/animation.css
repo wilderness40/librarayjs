@@ -1,10 +1,10 @@
 .up{
-  transform: translate(0, 100px) ; /*계속 css 상속 우선순위가 충돌한다*/
+  transform: translate(0, 100px) !important; /*계속 css 상속 우선순위가 충돌한다*/
 }
 .down{
-  transform: translate(0, -100px) ;
+  transform: translate(0, -100px) !important;
 }
 .reveal{
-  opacity: 1 ;  /*계속 css 상속 우선순위가 충돌한다*/
+  opacity: 1 !important;  /*계속 css 상속 우선순위가 충돌한다*/
   transform: none;
 }
