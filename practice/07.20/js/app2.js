@@ -39,6 +39,27 @@ const walk = x - startX // 마우스 드래그 지점에서 이전에 마우스 
 container2.scrollLeft = scrollLeft - walk // 최근 스크롤바 위치에서 마우스 이동거리만큼 더하거나 뺴줌
 })
 
+// 전체 카드리스트 가져오기
+function createCard(card){
+  let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
+  let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
+  let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
+  let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
+
+  allCard.className = 'cardFrame down'  
+  cardImgFrame.className ='cardImgFrame'
+  cardImg.className = 'cardImg'
+  cardText.className = 'cardtext' 
+  cardText.innerHTML = `<h3>${card.alt_description}</h3> \n <p>by ${card.user.username}</p>`
+
+  cardImg.src = card.urls.regular // 카드 이미지
+
+  allcardSection.appendChild(allCard)
+  allCard.append(cardImgFrame,cardText)
+  cardImgFrame.appendChild(cardImg)
+  cardArr.push(allCard)
+}
+
 // fetch 데이터 가져오기
 
 async function showLocalImg() {
@@ -95,30 +116,7 @@ function showlargeImg(e){ // 카드이미지2 클릭시 확대
   detailView.innerHTML = `<img src=${e.target.src} alt='${e.target.alt}' class='large-view'>`
   }
 card.addEventListener('click', showlargeImg)
-}
-
-// 전체 카드리스트 가져오기
-function createCard(card){
-  let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
-  let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
-  let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
-  let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
-
-  allCard.className = 'cardFrame'  
-  cardImgFrame.className ='cardImgFrame'
-  cardImg.className = 'cardImg'
-  cardText.className = 'cardtext' 
-  cardText.innerHTML = `<h3>${card.alt_description}</h3> \n <p>by ${card.user.username}</p>`
-
-  cardImg.src = card.urls.regular // 카드 이미지
-
-  allcardSection.appendChild(allCard)
-  allCard.append(cardImgFrame,cardText)
-  cardImgFrame.appendChild(cardImg)
-  cardArr.push(allCard)
-}
-window.createCard = createCard
-  
+}  
 for (let i = 0; i < newArr.length; i++) {
   createCard(newArr[i])
 }
@@ -128,10 +126,11 @@ showLocalImg()
 window.addEventListener('scroll', () => {
   for (let i = 0; i<cardArr.length; i++) {
   if(allcardSection.getBoundingClientRect().top < header.offsetHeight + 500){   
-      cardArr[i].classList.add('reveal','down')
-  
+      cardArr[i].classList.add('reveal')
+      // cardArr[i].style.opacity ='1'
   }  else {
-    cardArr[i].classList.remove('reveal','down')
+    cardArr[i].classList.remove('reveal')
+    // cardArr[i].style.opacity ='0'
   }
 }
 
@@ -189,7 +188,6 @@ function getImgList(num){
   return imgList
 }
 
-
 // 스크롤투탑
 const scrollTopBtn = document.querySelector('.scrollBtn')
 scrollTopBtn.addEventListener('click', () => window.scrollTo({
@@ -198,7 +196,6 @@ behavior: 'smooth'
 }))
 
 // 다크모드
-
 const mode = document.querySelector('.mode')
 const modeBtns = document.querySelectorAll('.mode .fa-solid')
 
@@ -220,16 +217,12 @@ window.pageYoffset 문서상단부터 브라우저 상단까지의 거리
 getBoundingClientRect().top 브라우저상단부터 엘리먼트까지의 거리
 */
 
-
 // 검색창 기능
 const input = document.querySelector('.search input')
-// const inputEnter = document.querySelector('label span')
 
-function searchPhotos(e) {
-  
-  console.log(e.target.value.trim())
-  e.target.value =''
-}
-input.addEventListener('change', searchPhotos)
 
-  
+
+input.addEventListener('change', (e) => {
+  console.log(e.target.value)
+  e.target.value = ''
+})

@@ -25,7 +25,6 @@ header {
   height: 80px;
   background-color: #fff;
   box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   display: flex;
@@ -211,7 +210,6 @@ header button {
   padding: 0.5rem;
   margin: 2rem;
   flex: 1 0 auto;
-  opacity: 0;
   transition: all 1s ease;
 }
 
@@ -293,4 +291,4 @@ header button {
 .container-noneauto {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-} /*# sourceMappingURL=style.css.map *//*# sourceMappingURL=reserveSty.css.map */
+} /*# sourceMappingURL=reserveSty.css.map */
