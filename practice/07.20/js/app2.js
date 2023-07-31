@@ -39,6 +39,27 @@ const walk = x - startX // 마우스 드래그 지점에서 이전에 마우스 
 container2.scrollLeft = scrollLeft - walk // 최근 스크롤바 위치에서 마우스 이동거리만큼 더하거나 뺴줌
 })
 
+// 전체 카드리스트 가져오기
+function createCard(card){
+  let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
+  let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
+  let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
+  let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
+
+  allCard.className = 'cardFrame down'  
+  cardImgFrame.className ='cardImgFrame'
+  cardImg.className = 'cardImg'
+  cardText.className = 'cardtext' 
+  cardText.innerHTML = `<h3>${card.alt_description}</h3> \n <p>by ${card.user.username}</p>`
+
+  cardImg.src = card.urls.regular // 카드 이미지
+
+  allcardSection.appendChild(allCard)
+  allCard.append(cardImgFrame,cardText)
+  cardImgFrame.appendChild(cardImg)
+  cardArr.push(allCard)
+}
+
 // fetch 데이터 가져오기
 
 async function showLocalImg() {
@@ -97,26 +118,7 @@ function showlargeImg(e){ // 카드이미지2 클릭시 확대
 card.addEventListener('click', showlargeImg)
 }
 
-// 전체 카드리스트 가져오기
-function createCard(card){
-  let allCard = document.createElement('div') // 개별카드를 감싸는 프레임
-  let cardImgFrame = document.createElement('div') // 카드이미지를 감싸는 프레임
-  let cardImg = document.createElement('img')  // 카드이미지 프레임 내의 이미지
-  let cardText = document.createElement('div') // 카드텍스트를 감싸는 프레임
 
-  allCard.className = 'cardFrame'  
-  cardImgFrame.className ='cardImgFrame'
-  cardImg.className = 'cardImg'
-  cardText.className = 'cardtext' 
-  cardText.innerHTML = `<h3>${card.alt_description}</h3> \n <p>by ${card.user.username}</p>`
-
-  cardImg.src = card.urls.regular // 카드 이미지
-
-  allcardSection.appendChild(allCard)
-  allCard.append(cardImgFrame,cardText)
-  cardImgFrame.appendChild(cardImg)
-  cardArr.push(allCard)
-}
 window.createCard = createCard
   
 for (let i = 0; i < newArr.length; i++) {
@@ -128,10 +130,10 @@ showLocalImg()
 window.addEventListener('scroll', () => {
   for (let i = 0; i<cardArr.length; i++) {
   if(allcardSection.getBoundingClientRect().top < header.offsetHeight + 500){   
-      cardArr[i].classList.add('reveal','down')
+      cardArr[i].classList.add('reveal')
   
   }  else {
-    cardArr[i].classList.remove('reveal','down')
+    cardArr[i].classList.remove('reveal')
   }
 }
 
@@ -168,8 +170,10 @@ const scrollHeight = Math.max(   // 전체문서 높이 (스크롤이벤트 내�
     );
     // 스크롤을 브라우저창 아래까지 다 내린경우
 let imgList = []
+// 검색한 키워드가 있을경우 무한스크롤이 멈춘다 없을 경우 무한스크롤을 지속한다
+// 지역변수로 만든 e.target.value값을 어떻게 가져오지 
 
-  if(Math.abs(window.pageYOffset+document.documentElement.clientHeight-scrollHeight) < 100){
+  if(Math.abs(window.pageYOffset+document.documentElement.clientHeight-scrollHeight) < 100 ){ 
     imgList = getImgList(2)
     console.log('scroll is bottom of browser!')
    imgList.forEach(factory => {
@@ -221,15 +225,44 @@ getBoundingClientRect().top 브라우저상단부터 엘리먼트까지의 거�
 */
 
 
-// 검색창 기능
+// 검색창 기능 & 정렬하기
 const input = document.querySelector('.search input')
-// const inputEnter = document.querySelector('label span')
+const sortBtn = document.querySelector('.sort .sort_btn') 
+
 
 function searchPhotos(e) {
-  
-  console.log(e.target.value.trim())
+let inputWord = e.target.value.trim()
+let searchResults = [...newArr]
+
+  function searhKeyword(keyword){
+    if(inputWord) {
+      return keyword.alt_description.toLowerCase().includes(inputWord.toLowerCase()) // 검색어가 들어간 이미지만 남긴다
+    }
+
+ 
+         // 검색어가 포함된 이미지를 어떻게 가져오지? return 과 변수 선언과 할당
+        // 검색어가 들어간 이미지만 새로운 배열에 넣는다? filter 배열에 검색어가 포함된 이미지만 들어간다
+       // 마운트해서 화면에 보여준다 -> 기존에 스크롤해서 나오는 이미지와 겹치지 않나? 
+      
+  } 
+  searchResults = searchResults.filter(searhKeyword) // 검색어가 들어간 이미지만 남긴다 -> 이후 결과값을 변수에 반영한다
+  console.log(searchResults)
+
   e.target.value =''
-}
-input.addEventListener('change', searchPhotos)
+  allcardSection.innerHTML = '' 
+  searchResults.forEach(card => createCard(card)) // 카드를 하나씩 생성해야 하므로 forEach돌려서 한개씩 함수를 실행한다
+
 
   
+}
+function sortPhotos(){
+  // 검색결과를 여기에 어떻게 가져오지?
+  // 최초 .sort((a, b) => a-b) 클릭시 .sort((a, b) => b-a) 
+  // created_at 속성을 가져와서 정렬해야겠다
+  
+  
+  }
+input.addEventListener('change', searchPhotos)
+sortBtn.addEventListener('click', sortPhotos)
+
+ 

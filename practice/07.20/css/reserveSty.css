@@ -45,6 +45,11 @@ header button {
   cursor: pointer;
 }
 
+header button:hover {
+  background-color: rgb(44, 44, 216);
+  font-size: 1.1rem;
+}
+
 .tultip {
   width: 200px;
   height: 50px;
@@ -89,6 +94,15 @@ header button {
   background-color: rgb(233, 233, 233);
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.sort .sort_btn {
+  background-color: orange;
+}
+
+.sort .sort_btn:hover {
+  background-color: rgb(204, 134, 5);
+  font-size: 1.1rem;
 }
 
 .on {
@@ -211,7 +225,6 @@ header button {
   padding: 0.5rem;
   margin: 2rem;
   flex: 1 0 auto;
-  opacity: 0;
   transition: all 1s ease;
 }
 
