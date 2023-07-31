@@ -11,6 +11,9 @@ const allcardSection = document.querySelector('.allcards')
 let newArr = []
 let cards = []
 
+let inputWord = null
+let searchResults = []
+
 let isDown = false // 플래그 : 현재 마우스 클릭여부 판단
 let startX // 마우스 클릭시 마우스의 x좌표
 let scrollLeft // 최근 스크롤바 위치 저장
@@ -116,7 +119,11 @@ function showlargeImg(e){ // 카드이미지2 클릭시 확대
   detailView.innerHTML = `<img src=${e.target.src} alt='${e.target.alt}' class='large-view'>`
   }
 card.addEventListener('click', showlargeImg)
-}  
+}
+
+
+window.createCard = createCard
+  
 for (let i = 0; i < newArr.length; i++) {
   createCard(newArr[i])
 }
@@ -127,15 +134,15 @@ window.addEventListener('scroll', () => {
   for (let i = 0; i<cardArr.length; i++) {
   if(allcardSection.getBoundingClientRect().top < header.offsetHeight + 500){   
       cardArr[i].classList.add('reveal')
-      // cardArr[i].style.opacity ='1'
+  
   }  else {
     cardArr[i].classList.remove('reveal')
-    // cardArr[i].style.opacity ='0'
   }
 }
 
 // 튤팁기능
-function showhideTultip(){
+function showhideTultip(e){
+e.preventDefault()
 tultip.classList.toggle('on')
 }
 tultipBtn.addEventListener('click', showhideTultip)
@@ -167,22 +174,34 @@ const scrollHeight = Math.max(   // 전체문서 높이 (스크롤이벤트 내�
     );
     // 스크롤을 브라우저창 아래까지 다 내린경우
 let imgList = []
+// 검색한 키워드가 있을경우 무한스크롤이 멈춘다 없을 경우 무한스크롤을 지속한다
+// 지역변수로 만든 e.target.value값을 어떻게 가져오지 => 전역으로 빼서 값복사해서 가져옴
+  if(Math.abs(window.scrollY+document.documentElement.clientHeight-scrollHeight) < 100 ){ 
+    console.log('scroll is bottom of browser!') // 디버그용
 
-  if(Math.abs(window.pageYOffset+document.documentElement.clientHeight-scrollHeight) < 100){
-    imgList = getImgList(2)
-    console.log('scroll is bottom of browser!')
-   imgList.forEach(factory => {
-    // console.log(createCard)
-    window.createCard(factory)
-    }) 
+    if(inputWord) {
+      console.log(inputWord, searchResults) // 디버그용
+      searchResults = getImgList(2)
+      searchResults.forEach(result => {
+      console.log(result) // 디버그용
+      window.createCard(result)})
+    }else {
+      imgList = getImgList(2)
+      imgList.forEach(factory => {
+      console.log(factory) // 디버그용
+      window.createCard(factory)
+    }) }
   }
-
 })
 
 // 무한스크롤시 이미지 배열 합치기
 function getImgList(num){
   for (let i = 0; i < num; i++){
-    imgList = newArr.concat(newArr)
+    if(inputWord){
+      imgList = searchResults.concat(searchResults)
+    } else{
+      imgList = newArr.concat(newArr)
+    }
     // imgList.push(...newArr)
   }
   return imgList
@@ -217,12 +236,57 @@ window.pageYoffset 문서상단부터 브라우저 상단까지의 거리
 getBoundingClientRect().top 브라우저상단부터 엘리먼트까지의 거리
 */
 
-// 검색창 기능
+
+// 검색창 기능 & 정렬하기
 const input = document.querySelector('.search input')
+const sortBtn = document.querySelector('.sort .sort_btn') 
 
 
+function searchPhotos(e) {
+inputWord = e.target.value.trim()
+searchResults = [...newArr]
 
-input.addEventListener('change', (e) => {
-  console.log(e.target.value)
-  e.target.value = ''
-})
+  function searhKeyword(keyword){
+    if(inputWord) {
+      return keyword.alt_description.toLowerCase().includes(inputWord.toLowerCase()) // 검색어가 들어간 이미지만 남긴다
+    }
+         // 검색어가 포함된 이미지를 어떻게 가져오지? return 과 변수 선언과 할당
+        // 검색어가 들어간 이미지만 새로운 배열에 넣는다? filter 배열에 검색어가 포함된 이미지만 들어간다
+       // 마운트해서 화면에 보여준다 -> 기존에 스크롤해서 나오는 이미지와 겹치지 않나? 
+      
+  } 
+  searchResults = searchResults.filter(searhKeyword) // 검색어가 들어간 이미지만 남긴다 -> 이후 결과값을 변수에 반영한다
+  console.log(searchResults)
+
+  e.target.value =''
+  allcardSection.innerHTML = '' 
+  searchResults.forEach(card => createCard(card)) // 카드를 하나씩 생성해야 하므로 forEach돌려서 한개씩 함수를 실행한다
+}
+
+// 정렬기능
+// 스크롤을 해야 정렬된 이미지가 등장한다 (바로 나오도록 바꿔야함)
+function sortPhotos(){
+  
+  // 최초 .sort((a, b) => a-b) 클릭시 .sort((a, b) => b-a) 
+  // 클릭시 created_at 순서로 오름차순 정렬됨 
+  if(inputWord){
+  searchResults = searchResults.sort(function (a, b){
+    if(a.created_at > b.created_at) return 1
+    if(a.created_at < b.created_at) return -1
+    return 0
+  }) 
+
+  // 정렬된 searchResults 값을 화면에 업데이트해야한다
+  // window.createCard(searchResults)
+  allcardSection.innerHTML = '' // 기존 검색어로 나온화면(정렬안된화면) 초기화한다
+  searchResults.forEach(result => // 정렬된 배열의 객체들을 하나씩 가져온다
+    createCard(result)  // 하나씩 가져온 객체들을 화면생성 함수에 넣어준다
+    // console.log(result)
+    )
+  
+  }
+  }
+input.addEventListener('change', searchPhotos)
+sortBtn.addEventListener('click', sortPhotos)
+
+ 

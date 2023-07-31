@@ -40,14 +40,16 @@ section .container .title h1 {
   font-size: 3rem;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
   margin: 60px auto 0;
-  animation: 1.5s fadein-to-right;
+  -webkit-animation: 1.5s fadein-to-right;
+          animation: 1.5s fadein-to-right;
 }
 section .container .title p {
   font-size: 1.25rem;
   max-width: 760px;
   width: 60%;
   display: inline-block;
-  animation: 1.5s fadein-to-left;
+  -webkit-animation: 1.5s fadein-to-left;
+          animation: 1.5s fadein-to-left;
 }
 section .container .actions {
   margin-top: 2rem;
@@ -66,13 +68,15 @@ section .container .actions button:nth-child(1) {
   background: var(--text-color);
   color: #333;
   border: none;
-  animation: fadein-to-right 1.5s;
+  -webkit-animation: fadein-to-right 1.5s;
+          animation: fadein-to-right 1.5s;
 }
 section .container .actions button:nth-child(2) {
   border: 2px solid var(--text-color);
   color: var(--text-color);
   background: transparent;
-  animation: fadein-to-left 1.5s;
+  -webkit-animation: fadein-to-left 1.5s;
+          animation: fadein-to-left 1.5s;
 }
 section .container .actions button:nth-child(1):hover {
   background: var(--primary-color);
@@ -96,13 +100,25 @@ section .container .foods figure {
   padding: 60px 50px;
   margin: 1rem;
   min-width: 150px;
-  animation: fade-to-top 1.5s;
+  -webkit-animation: fade-to-top 1.5s;
+          animation: fade-to-top 1.5s;
   line-height: 2rem;
   font-weight: bold;
   letter-spacing: 0.2rem;
 }
 section .container .foods figure img {
   width: 3rem;
+}
+
+@-webkit-keyframes fadein-to-right {
+  from {
+    transform: scale(0);
+    transform: translate(calc(-1 * var(--text-offset)), 0);
+  }
+  to {
+    transform: scale(1);
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes fadein-to-right {
@@ -115,12 +131,38 @@ section .container .foods figure img {
     transform: translate(0, 0);
   }
 }
+@-webkit-keyframes fadein-to-left {
+  from {
+    transform: scale(0);
+    transform: translate(var(--text-offset), 0);
+  }
+  to {
+    transform: scale(1);
+    transform: translate(0, 0);
+  }
+}
 @keyframes fadein-to-left {
   from {
     transform: scale(0);
     transform: translate(var(--text-offset), 0);
   }
   to {
+    transform: scale(1);
+    transform: translate(0, 0);
+  }
+}
+@-webkit-keyframes fade-to-top {
+  from {
+    opacity: 0;
+    height: 0;
+    min-width: 0px;
+    transform: scale(0);
+    transform: translate(0, var(--text-offset));
+  }
+  to {
+    opacity: 1;
+    height: 100%;
+    min-width: 150px;
     transform: scale(1);
     transform: translate(0, 0);
   }
