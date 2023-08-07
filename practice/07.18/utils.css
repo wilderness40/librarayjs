@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #e73d0c;
+  --text-color: #fff;
+  --text-offset: 500px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.position-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.text-center {
+  text-align: center;
+}/*# sourceMappingURL=utils.css.map */

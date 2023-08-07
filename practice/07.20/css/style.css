@@ -1,0 +1,311 @@
+/* 
+문제점 
+
+1. 레이아웃이 깔끔하지 않다 : 좌우간격과 위아래 마진을 야매(?)로 대중으로 맞춤
+2. 위 문제로 인해 요소 하나 디자인이 바뀌면 주변이 전부 틀어지게됨
+3. 반응형 웹페이지가 이님
+
+*/
+
+*{
+  box-sizing: border-box;
+}
+body{
+  margin: 0;
+  padding: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  min-height: 200vh;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+}
+li{
+  list-style: none;
+}
+/* header */
+header {
+  width: 100%;
+  max-width: 100%;
+  background-color: rgba(4, 2, 116, 0.582);
+  position: sticky; 
+  top: 0;
+  z-index: 10;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  font-size: 1.2rem;
+}
+.home-btn a{
+  color: #fff;
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.home-btn a:hover{
+  opacity: .5;
+}
+.main-menu {
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: 2rem;
+  position: relative;
+}
+.main-menu>li{
+  width: 100%;
+  margin-left: 15px;
+}
+
+.main-menu>li>a{
+  display: inline-block;
+  text-align: center;
+  width: 150px;
+  padding: 8px 5px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.main-menu>li>a:hover{
+  opacity: .5;
+}
+
+.sub-menu {
+  position: absolute;
+  padding-top: 35px;
+  z-index: 10;
+  display: none;
+}
+.sub-menu>li{
+  display: block;
+  padding: .4rem 0;
+  margin: 0 auto;
+  text-align: center;
+}
+.sub-menu>li>a{
+  display: block;
+  width: 100px;
+  margin: 0 -1rem;
+  color: #fff;
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.sub-menu>li>a:hover{
+  background-color: rgba(182, 219, 47, 0.849);
+}
+.login-btn a{
+  display: block;
+  color: rgb(196, 191, 224);
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.login-btn a:hover{
+  opacity: .5;
+}
+
+/* 네비배경용 */
+.main-menu:hover .background {
+  display: block;
+}
+.background {
+  position: fixed;
+  left: 0;
+  top: 4.8rem;
+  width: 100vw;
+  height: 200px;
+  background-color: rgba(4, 2, 116, 0.582);
+  display: none;
+  z-index: 1;
+}
+.on {
+  display: block;
+}
+/* main */
+video {
+  max-width: 100%;
+}
+.old-cover{
+  width: 100%;
+  height: 100vh;
+  background-image: url('/imgs/luggage-1149289_1920.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.new-cover {
+  width: 100%;
+  height: 100vh;
+  background-image: url('/imgs/beach-1867271_1920.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.modal-open{
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 32%;
+  transform: translate(-50%);
+  width: 120px;
+  height: 50px;
+  border: none;
+  border-radius: 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: rgb(94, 150, 48);
+  color: #fff;
+  cursor: pointer;
+}
+.modal-open:hover{
+  background-color: rgb(118, 189, 60);
+}
+.container{
+  position: fixed;
+  content: '';
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0 ,0 ,.5);
+  backdrop-filter: blur(3px);
+  display: none;
+  z-index: 3;
+  
+}
+.modal-window{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0,0,0,.3);
+  width: 500px; height: 300px;  
+  border-radius: .5rem;
+  backdrop-filter: blur(3px);
+  text-align: center;
+  color: #fff;
+  display: none;
+  transition: .3s;
+  box-shadow: 0 0 .3rem rgba(255,255,255,.3);
+  z-index: 2;
+  padding: 0 10px;
+}
+.hiddenbtn{
+  position: absolute;
+  top: 70%; left: 70%;
+  width: 20px; height: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(99, 99, 99, 0.589);
+  z-index: 999;
+  cursor: pointer;
+}
+.hiddenbtn:after{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  content: '숨겨진 버튼을 찾았습니다. 눈썰미가 좋으시군요!';
+  position: fixed;
+  left: 50%;  top: 20rem;
+  transform: translate(-50%, -50%);
+  width: 300px; height: 300px;
+  background-color: rgba(0,0,0,.5);
+  backdrop-filter: blur(3px);
+  display: none;
+  z-index: 2;
+}
+.hiddenbtn:focus:after{
+  display: block;
+}
+.scrollBtn{
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+  cursor: pointer;
+}
+.modal-window h3{
+  font-size: 2rem;
+}
+.modal-window p{
+  font-size: 1rem;
+}
+.show{
+  display: inline-flex !important;   /* display: none;이 적용되서 important로 강제 적용 */
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+}
+.expose{
+  display: block;
+}
+.hidden{
+  overflow: hidden;
+}
+/* footer */
+footer {
+  width: 100%;
+  background-color: rgb(204, 203, 203);
+}
+.footerbox {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5rem;
+  font-weight: bold;
+}
+/* 버거버튼 */
+header nav .burger-btn{
+  color: #fff;
+  cursor: pointer;
+  display: none;
+}
+@media (max-width: 420px) {
+  header nav{
+    height: 50px;
+    font-size: 1rem;
+  }
+  .main-menu{
+    display: flex;
+    position: fixed;
+    left: 20%;
+    top: 2rem;
+    flex-direction: column; 
+    display: none;
+  }
+ 
+  .main-menu>li>a{
+    z-index: 10;
+    position: relative;
+  }
+
+  .sub-menu{
+    width: 100%;
+    padding-top: 0;
+    position: relative;
+    z-index: 9;
+  }
+  .background{top: 50px; height: 100vh;}
+  .nav-container{display: none;}
+  .login-btn{display: none;}
+  header nav .burger-btn{display: block;}
+}
+
+/* 아래와 같이 작성해야 모바일에서는 hover효과가 적용되지 않고
+pc에서만 hover효과가 적용된다. 
+메인메뉴 hover시 서브메뉴를 보이게하는 css가 설정되니
+모바일화면에서 서브메뉴클릭시 모든메뉴가 한꺼번에 display:block이 되는현상이 발생
+아래 코드로 해결되었다.
+*/
+@media (hover: hover) {
+  /* 여기에 pc에서만 적용할 hover 효과를 작성 */
+  .main-menu:hover .sub-menu{
+    display: block;
+  }
+}

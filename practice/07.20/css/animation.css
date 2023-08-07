@@ -1,0 +1,11 @@
+.up{
+  transform: translate(0, 100px);
+}
+.down{
+  opacity: 0;
+  transform: translate(0, -100px);
+}
+.reveal{
+  opacity: 1; 
+  transform: none;
+}
