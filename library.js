@@ -1,7 +1,20 @@
 const express = require('express') // 모듈 임포트
 const app = express()
 const port = 3000 // 포트 구성
+const mongoose = require('mongoose')
+const axios = require('axios')
+// const Booklist = require('./src/models/book')
+const User = require('./src/models/user')
 let books = {}
+
+let corsOptions = {
+    origin: 'http://127.0.0.1:3000',
+    credentials: true
+}
+let CONNECT_URL = 'mongodb://127.0.0.1:27017/midbar'
+mongoose.connect(CONNECT_URL)
+.then(() => console.log('mongodb connected...'))
+.catch(e => console.log(`failed to connect mongodb: ${e}`))
 
 /* 공통 미들웨어  - 시작*/
 // 로그기록
