@@ -1,17 +1,17 @@
-const express = require('express') // 모듈 임포트
-const app = express()
-const router = express.Router()
-const port = 3000 // 서버 포트
+// const express = require('express') // 모듈 임포트
+// const app = express()
+// const router = express.Router()
+// const port = 3000 // 서버 포트
 
-app.get('/google', (req, res) => {
-    res.redirect('https://google.com')
-})
+// app.get('/google', (req, res) => {
+//     res.redirect('https://google.com')
+// })
   
-// 서버를 구동하고 브라우저 요청을 기다림
-// index.js 파일 맨 하단에 있는게 좋음
-app.listen(port, () => { 
-    console.log(`Example app listening on port ${port}`)
-})
+// // 서버를 구동하고 브라우저 요청을 기다림
+// // index.js 파일 맨 하단에 있는게 좋음
+// app.listen(port, () => { 
+//     console.log(`Example app listening on port ${port}`)
+// })
 
 
 /* 
